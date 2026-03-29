@@ -1,37 +1,32 @@
     import java.util.Scanner;
 
 public class StringCompression {
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
 
-        String S = sc.nextLine();
+        StringBuilder compressed = new StringBuilder();
 
-        if (S.length() == 0) {
-            System.out.println(S);
-            return;
-        }
-
-        StringBuilder result = new StringBuilder();
         int count = 1;
 
-        for (int i = 1; i <= S.length(); i++) {
-            if (i < S.length() && S.charAt(i) == S.charAt(i - 1)) {
+        for (int i = 1; i <= s.length(); i++) {
+            if (i < s.length() && s.charAt(i) == s.charAt(i - 1)) {
                 count++;
             } else {
-                result.append(S.charAt(i - 1));
-                result.append(count);
+                compressed.append(s.charAt(i - 1));
+                compressed.append(count);
                 count = 1;
             }
         }
 
-        if (result.length() < S.length()) {
-            System.out.println(result.toString());
+        if (compressed.length() < s.length()) {
+            System.out.print(compressed.toString());
         } else {
-            System.out.println(S);
+            System.out.print(s);
         }
     }
-
 }
+
+
   
 
