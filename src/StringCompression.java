@@ -1,40 +1,39 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        // TODO: Read the string
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) {
-            return;
-        }
-        String s = sc.next();
-        
-        // TODO: Iterate through the string to count consecutive characters
-        // TODO: Append char and count to a StringBuilder
+    public static String compressString(String s) {
         StringBuilder compressed = new StringBuilder();
-        int count = 0;
+        
+        int count = 1;
         
         for (int i = 0; i < s.length(); i++) {
-            count++;
-            
-            // If next character is different or we reached the end
-            if (i + 1 >= s.length() || s.charAt(i) != s.charAt(i + 1)) {
+            // Check if next character is same
+            if (i < s.length() - 1 && s.charAt(i) == s.charAt(i + 1)) {
+                count++;
+            } else {
+                // Append character and its count
                 compressed.append(s.charAt(i));
                 compressed.append(count);
-                count = 0;
+                count = 1;
             }
         }
         
-        String result = compressed.toString();
-        
-        // TODO: Compare lengths of original vs compressed
-        // TODO: Print the shorter one
-        // Constraint: If compressed is NOT smaller than original, print original.
-        if (result.length() < s.length()) {
-            System.out.println(result);
-        } else {
-            System.out.println(s);
+        // Return original if compressed is not smaller
+        if (compressed.length() >= s.length()) {
+            return s;
         }
+        
+        return compressed.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        String input = sc.nextLine();
+        
+        String result = compressString(input);
+        
+        System.out.println(result);
         
         sc.close();
     }
