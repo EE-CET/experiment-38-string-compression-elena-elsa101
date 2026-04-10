@@ -4,38 +4,47 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         
-        // Check if input exists to avoid errors
-        if (!sc.hasNext()) {
-            return;
+        // Read the entire input string
+        if (sc.hasNextLine()) {
+            String input = sc.nextLine().trim();
+            
+            // Handle empty input case
+            if (input.isEmpty()) {
+                System.out.print("");
+                return;
+            }
+            
+            String result = compress(input);
+            System.out.println(result);
         }
-        
-        String str = sc.next();
-        System.out.println(compress(str));
     }
 
     public static String compress(String str) {
-        // A string of length 0 or 1 cannot be compressed to be smaller
-        if (str == null || str.length() <= 1) {
+        int n = str.length();
+        // If the string is empty or very short, it can't be compressed effectively
+        if (n < 2) {
             return str;
         }
 
         StringBuilder compressed = new StringBuilder();
-        int count = 0;
+        int count = 1;
 
-        for (int i = 0; i < str.length(); i++) {
-            count++;
-
-            // If the next character is different, or we are at the end of the string
-            if (i + 1 >= str.length() || str.charAt(i) != str.charAt(i + 1)) {
+        for (int i = 0; i < n; i++) {
+            // Check if next character is the same
+            if (i + 1 < n && str.charAt(i) == str.charAt(i + 1)) {
+                count++;
+            } else {
+                // Character changes or we hit the end
                 compressed.append(str.charAt(i));
                 compressed.append(count);
-                count = 0; // Reset counter for the next character
+                count = 1; // Reset for the next sequence
             }
         }
 
         String result = compressed.toString();
 
-        // Constraint: Return original if compressed is not smaller
-        return result.length() < str.length() ? result : str;
+        // STRICT CONSTRAINT: Only return compressed if it is SHORTER
+        // If length is equal or longer, return original
+        return (result.length() < n) ? result : str;
     }
 }
